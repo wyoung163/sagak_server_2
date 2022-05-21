@@ -32,7 +32,7 @@ async function selectUserPosts(connection, userIdx, title) {
 
 async function selectPostbyIdx(connection, postIdx) {
   const getPostRows = `
-		  SELECT *
+		  SELECT p.postIdx,p.title,p.place,p.date,p.description
 		  FROM Post as p
 		  WHERE p.postIdx=?
 		  `;
@@ -42,8 +42,20 @@ async function selectPostbyIdx(connection, postIdx) {
   return item;
 }
 
+async function getImgUrlByPostIdx(connection, postIdx) {
+  const getImgUrlRows = `
+	SELECT i.imgUrlIdx, i.imgUrl
+	FROM ImgUrl as i
+	WHERE i.postIdx = ?
+	`;
+  const [item] = await connection.query(getImgUrlRows, postIdx);
+  //   console.log(item[0].date.toString());
+  return item;
+}
+
 module.exports = {
   getTitleList,
   selectUserPosts,
   selectPostbyIdx,
+  getImgUrlByPostIdx,
 };

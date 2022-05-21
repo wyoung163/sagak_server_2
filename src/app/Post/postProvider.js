@@ -55,8 +55,8 @@ exports.retrievePostListByTitle = async function (userIdx, postTitle) {
 exports.retrievePostByPostIdx = async function (postIdx) {
   const connection = await pool.getConnection(async (conn) => conn);
 
-  const postResult = await postDao.selectPostbyIdx(connection, postIdx);
-
+  var postResult = await postDao.selectPostbyIdx(connection, postIdx);
+  const imgUrls = await postDao.getImgUrlByPostIdx(connection, postIdx);
   connection.release();
-  return postResult;
+  return [postResult[0], imgUrls];
 };

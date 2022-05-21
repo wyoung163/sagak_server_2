@@ -65,7 +65,7 @@ exports.getSinglePost = async function (req, res) {
   const postIdx = req.params.postIdx;
 
   const singlePostResult = await postProvider.retrievePostByPostIdx(postIdx);
-  return res.send(response(baseResponse.SUCCESS, singlePostResult[0]));
+  return res.send(response(baseResponse.SUCCESS, singlePostResult));
 };
 
 exports.postSinglePost = async function (req, res) {};
