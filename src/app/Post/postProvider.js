@@ -37,3 +37,26 @@ exports.retrievePostList = async function (userIdx) {
 
   return postListResult;
 };
+
+exports.retrievePostListByTitle = async function (userIdx, postTitle) {
+  const connection = await pool.getConnection(async (conn) => conn);
+
+  const postListResult = await postDao.selectUserPosts(
+    connection,
+    userIdx,
+    postTitle
+  );
+
+  connection.release();
+
+  return postListResult;
+};
+
+exports.retrievePostByPostIdx = async function (postIdx) {
+  const connection = await pool.getConnection(async (conn) => conn);
+
+  const postResult = await postDao.selectPostbyIdx(connection, postIdx);
+
+  connection.release();
+  return postResult;
+};
