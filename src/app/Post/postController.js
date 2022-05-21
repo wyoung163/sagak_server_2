@@ -8,7 +8,7 @@ const postProvider = require("./postProvider");
     API NAME: 게시물 조회 API
     (GET) /posts?useridx=
  */
-
+//hi
 exports.getPosts = async function (req, res) {
   /*
         Query String: userIdx
