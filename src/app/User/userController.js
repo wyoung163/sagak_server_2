@@ -5,8 +5,6 @@ const baseResponse = require("../../../config/baseResponseStatus");
 const { response, errResponse } = require("../../../config/response");
 const postProvider = require("../Post/postProvider");
 
-const regexEmail = require("regex-email");
-
 /**
  * API No. 0
  * API Name : 테스트 API
@@ -25,40 +23,46 @@ exports.postUsers = async function (req, res) {
   /**
    * Body: email, password, nickname
    */
-  const { email, password, nickname } = req.body;
+  const { userName, userID, userPassword, password_check } = req.body;
 
-  // 빈 값 체크
-  if (!email) return res.send(response(baseResponse.SIGNUP_EMAIL_EMPTY));
+  //빈 값 체크
+  if (!userPassword) return res.send(response(baseResponse.SIGNUP_PASSWORD_EMPTY));
 
   // 길이 체크
-  if (email.length > 30)
-    return res.send(response(baseResponse.SIGNUP_EMAIL_LENGTH));
+  // if (userPassword.length > 30)
+    // return res.send(response(baseResponse.SIGNUP_EMAIL_LENGTH));
 
-  // 형식 체크 (by 정규표현식)
-  if (!regexEmail.test(email))
-    return res.send(response(baseResponse.SIGNUP_EMAIL_ERROR_TYPE));
+  if (userPassword == password_check) {
+    //pw와 pw확인이 동일한지 확인  
 
-  // 기타 등등 - 추가하기
-
-  const signUpResponse = await userService.createUser(
-    email,
-    password,
-    nickname
-  );
+    const signUpResponse = await userService.createUser(
+    userName, userID, userPassword
+    );
 
   return res.send(signUpResponse);
+  } else {
+    return res.send(response(baseResponse.SIGNUP_PASSWORD_CHECK));
+  }
+};
+
+exports.login = async function (req, res) {
+
+  const {userID, userPassword} = req.body;
+
+  // TODO: email, password 형식적 Validation
+
+  const signInResponse = await userService.postSignIn(userID, userPassword);
+
+  return res.send(signInResponse);
 };
 
 /**
  * API No. 2
- * API Name : 유저 조회 API (+ 이메일로 검색 조회)
+ * API Name : 유저 조회 API
  * [GET] /app/users
- */
-exports.getUsers = async function (req, res) {
-  /**
-   * Query String: email
-   */
 
+exports.getUsers = async function (req, res) {
   const userListResult = await userProvider.retrieveUserList();
   return res.send(response(baseResponse.SUCCESS, userListResult));
 };
+*/

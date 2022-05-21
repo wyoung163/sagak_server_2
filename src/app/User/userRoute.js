@@ -9,7 +9,10 @@ module.exports = function (app) {
   app.post("/app/users", user.postUsers);
 
   // 2. 유저 조회 API (+ 검색)
-  app.get("/app/users", user.getUsers);
+  //app.get("/app/users", user.getUsers);
+
+  // 로그인 하기 API (JWT 생성)
+  app.post('/app/login', user.login);
 };
 
 // TODO: 자동로그인 API (JWT 검증 및 Payload 내뱉기)
