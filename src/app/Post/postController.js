@@ -19,6 +19,19 @@ const postProvider = require("./postProvider");
 // };
 
 /*
+    API NO 2.1
+    API NAME: 제목 같은 게시글 조회 - 리스트
+    (POST) /app/posts/upload
+
+ */
+
+exports.postSinglePost = async function (req, res) {
+  const postInfo = req.body;
+  const singlePostResult = await postService.createPost(postInfo);
+  return res.send(response(baseResponse.SUCCESS, singlePostResult));
+};
+
+/*
     API NO 2.5
     API NAME: 제목 같은 게시글 조회 - 리스트
     (GET) /app/posts/:userIdx?postTitle=
@@ -67,8 +80,6 @@ exports.getSinglePost = async function (req, res) {
   const singlePostResult = await postProvider.retrievePostByPostIdx(postIdx);
   return res.send(response(baseResponse.SUCCESS, singlePostResult));
 };
-
-exports.postSinglePost = async function (req, res) {};
 
 /*
     API NO 2.7

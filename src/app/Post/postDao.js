@@ -67,10 +67,30 @@ async function getImgUrlByPostIdx(connection, postIdx) {
   return item;
 }
 
+async function insertPostInfo(connection, insertPostInfoParams) {
+  const insertPost = `        
+			INSERT INTO Post(userIdx, title, date,place,categoryIdx,description)
+			VALUES (?, ?, ?,?,?,?);
+			`;
+  const [item] = await connection.query(insertPost, insertPostInfoParams);
+  return item;
+}
+
+async function insertImgInfo(connection, insertImgInfoParams) {
+  const insertPost = `        
+			  INSERT INTO ImgUrl(postIdx, imgUrl)
+			  VALUES (?, ?);
+			  `;
+  const [item] = await connection.query(insertPost, insertImgInfoParams);
+  return item;
+}
+
 module.exports = {
   getTitleList,
   selectUserPosts,
   selectPostbyIdx,
   getImgUrlByPostIdx,
   getTitleListByCategory,
+  insertPostInfo,
+  insertImgInfo,
 };
