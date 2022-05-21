@@ -11,18 +11,11 @@ const postProvider = require("./postProvider");
 //hi
 exports.getPosts = async function (req, res) {
   /*
-        Query String: userIdx
+        Params: userIdx
     */
-
-  const userIdx = req.query.userIdx;
-
-  // validation
-  if (!userIdx) {
-    return res.send(errResponse(baseResponse.USER_USERIDX_EMPTY));
-  }
-  if (userIdx <= 0) {
-    return res.send(errResponse(baseResponse.USER_USERIDX_LENGTH));
-  }
-
+  const userIdx = req.params.userIdx;
   const postListResult = await postProvider.retrievePostList(userIdx);
+
+  return res.send(response(baseResponse.SUCCESS, postListResult));
+  // const postListResult = await postProvider.retrievePostList(userIdx);
 };
