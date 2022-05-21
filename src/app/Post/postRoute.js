@@ -10,4 +10,7 @@ module.exports = function (app) {
 
   //2.1 POST 게시글 작성 /app/posts/upload
   app.post("/app/posts/upload", post.postSinglePost);
+
+  //2.7 GET 카테고리 별 게시글 조회 /app/posts/:userIdx/category/:cateIdx
+  app.get("/app/posts/:userIdx/category/:cateIdx", post.getPostsByCategory);
 };

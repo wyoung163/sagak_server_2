@@ -17,6 +17,18 @@ retrieveTitleList = async function (userIdx) {
   return tilteListResult;
 };
 
+retrieveTitleListByCategory = async function (userIdx, categoryIdx) {
+  const connection = await pool.getConnection(async (conn) => conn);
+  const tilteListResult = await postDao.getTitleListByCategory(
+    connection,
+    userIdx,
+    categoryIdx
+  );
+  connection.release();
+
+  return tilteListResult;
+};
+
 exports.retrievePostList = async function (userIdx) {
   const names = await retrieveTitleList(userIdx);
 
@@ -59,4 +71,26 @@ exports.retrievePostByPostIdx = async function (postIdx) {
   const imgUrls = await postDao.getImgUrlByPostIdx(connection, postIdx);
   connection.release();
   return [postResult[0], imgUrls];
+};
+
+exports.retrievePostListByCategory = async function (userIdx, categoryIdx) {
+  const names = await retrieveTitleListByCategory(userIdx, categoryIdx);
+  console.log(names);
+  const connection = await pool.getConnection(async (conn) => conn);
+
+  var postListResult = [];
+
+  for (var i = 0; i < names.length; i++) {
+    const item = await postDao.selectUserPosts(
+      connection,
+      userIdx,
+      names[i].title
+    );
+    console.log("hello", item);
+    postListResult.push(item);
+  }
+
+  connection.release();
+
+  return postListResult;
 };

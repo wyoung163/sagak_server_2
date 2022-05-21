@@ -13,6 +13,20 @@ async function getTitleList(connection, userIdx) {
   return names;
 }
 
+async function getTitleListByCategory(connection, userIdx, categoryIdx) {
+  const getTitleFromPostsByCate = `
+	SELECT title
+	FROM Post as p
+	WHERE p.useridx=? and categoryIdx=?
+	group by title;
+	`;
+  const [names] = await connection.query(getTitleFromPostsByCate, [
+    userIdx,
+    categoryIdx,
+  ]);
+  return names;
+}
+
 async function selectUserPosts(connection, userIdx, title) {
   const getPostRows = `
 		SELECT p.postIdx,p.title,p.date,p.categoryIdx,c.categoryName,j.imgUrl
@@ -58,4 +72,5 @@ module.exports = {
   selectUserPosts,
   selectPostbyIdx,
   getImgUrlByPostIdx,
+  getTitleListByCategory,
 };

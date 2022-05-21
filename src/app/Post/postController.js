@@ -69,3 +69,20 @@ exports.getSinglePost = async function (req, res) {
 };
 
 exports.postSinglePost = async function (req, res) {};
+
+/*
+    API NO 2.7
+    API NAME: 카테고리 별 게시글 조회
+    (GET) /app/posts/:userIdx/category/:cateIdx
+ */
+
+exports.getPostsByCategory = async function (req, res) {
+  const userIdx = req.params.userIdx;
+  const cateIdx = req.params.cateIdx;
+
+  const catePostResult = await postProvider.retrievePostListByCategory(
+    userIdx,
+    cateIdx
+  );
+  return res.send(response(baseResponse.SUCCESS, catePostResult));
+};
