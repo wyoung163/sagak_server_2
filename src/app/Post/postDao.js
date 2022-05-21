@@ -15,11 +15,14 @@ async function getTitleList(connection, userIdx) {
 
 async function selectUserPosts(connection, userIdx, title) {
   const getPostRows = `
-		SELECT p.postIdx,p.title,p.date,p.categoryIdx
+		SELECT p.postIdx,p.title,p.date,p.categoryIdx,c.categoryName,j.imgUrl
 		FROM Post as p
-		# Join category as c
-		# on p.categoryIdx = c.categoryIdx
+		Join Category as c
+		On p.categoryIdx = c.categoryIdx
+		Join ImgUrl as j
+		On p.postIdx = j.postIdx
 		WHERE p.title=? and p.userIdx=?
+		group by postIdx
 		`;
 
   const [item] = await connection.query(getPostRows, [title, userIdx]);
