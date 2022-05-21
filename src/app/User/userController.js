@@ -21,9 +21,9 @@ const postProvider = require("../Post/postProvider");
  */
 exports.postUsers = async function (req, res) {
   /**
-   * Body: email, password, nickname
+   * Body: userName, userID, userPassword, password_check 
    */
-  const { userName, userID, userPassword, password_check } = req.body;
+  const { userName, userID, userPassword } = req.body;
 
   //빈 값 체크
   if (!userPassword) return res.send(response(baseResponse.SIGNUP_PASSWORD_EMPTY));
@@ -32,17 +32,12 @@ exports.postUsers = async function (req, res) {
   // if (userPassword.length > 30)
     // return res.send(response(baseResponse.SIGNUP_EMAIL_LENGTH));
 
-  if (userPassword == password_check) {
-    //pw와 pw확인이 동일한지 확인  
-
-    const signUpResponse = await userService.createUser(
-    userName, userID, userPassword
-    );
+  const signUpResponse = await userService.createUser(
+  userName, userID, userPassword
+  );
 
   return res.send(signUpResponse);
-  } else {
-    return res.send(response(baseResponse.SIGNUP_PASSWORD_CHECK));
-  }
+  
 };
 
 exports.login = async function (req, res) {
