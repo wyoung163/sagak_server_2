@@ -21,13 +21,13 @@ exports.createPost = async function (postInfo) {
     insertUserInfoParams
   );
 
-  console.log(`추가된 post : ${postIdResult}`);
+  console.log(`추가된 post : ${postIdResult.insertId}`);
   for (var i = 0; i < postInfo.imgUrl.length; i++) {
     const imgIdResult = await postDao.insertImgInfo(connection, [
       postIdResult.insertId,
       postInfo.imgUrl[i],
     ]);
-    console.log(`추가된 url: ${imgIdResult}`);
+    console.log(`추가된 url: ${imgIdResult.insertId}`);
   }
 
   connection.release();
